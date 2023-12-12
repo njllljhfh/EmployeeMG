@@ -1,10 +1,14 @@
 #include <iostream>
 #include "workerManager.h"
 using namespace std;
+#include "testWorker.h"
 
 
 int main()
 {
+    //testAllWorker();
+    //cout << "-------------------------------------------" << endl;
+
     WorkManager wm;
 
     int choice = 0;
@@ -19,6 +23,7 @@ int main()
             wm.exitSystem();
             break;
         case 1:
+            wm.addEmp();
             break;
         case 2:
             break;
@@ -39,6 +44,5 @@ int main()
     }
 
     system("pause");
-    //cin.get();
     return 0;
 }
