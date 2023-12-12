@@ -1,7 +1,7 @@
 #include <iostream>
 #include "workerManager.h"
 using namespace std;
-#include "testWorker.h"
+//#include "testWorker.h"
 
 
 int main()

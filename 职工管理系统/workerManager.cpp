@@ -3,10 +3,38 @@
 
 WorkManager::WorkManager()
 {
-    //初始化属性
-    this->mEmpNum = 0;
-    this->mEmpArray = NULL;
+    ifstream ifs;
+    ifs.open(FILENAME, ios::in);  //读文件
+
+    //文件不存在
+    if (!ifs.is_open())
+    {
+        cout << "文件不存在" << endl;
+        //初始化属性
+        this->mEmpNum = 0;
+        this->mEmpArray = NULL;
+        this->mFileIsEmpty = true;
+        ifs.close();
+        return;
+    }
+
+    //文件存在，数据为空
+    char ch;
+    ifs >> ch;
+    if (ifs.eof())  // 这种判空方式，还不太理解！！！
+    {
+        cout << "文件为空" << endl;
+        this->mEmpNum = 0;
+        this->mEmpArray = NULL;
+        this->mFileIsEmpty = true;
+        ifs.close();
+        return;
+    }
+
+    //文件存在，且有数据
+    this->initEmp();
 }
+
 
 WorkManager::~WorkManager()
 {
@@ -16,6 +44,7 @@ WorkManager::~WorkManager()
         this->mEmpArray = NULL;
     }
 }
+
 
 void WorkManager::showMenu()
 {
@@ -33,6 +62,8 @@ void WorkManager::showMenu()
     cout << endl;
 }
 
+
+//添加职工
 void WorkManager::addEmp()
 {
     cout << "请输入添加职工数量：" << endl;
@@ -58,7 +89,7 @@ void WorkManager::addEmp()
         //批量添加新数据
         for (int i = 0; i < addNum; i++)
         {
-            int id;  //职工编号
+            int id;  // 职工编号
             string name;  //职工姓名
             int dSelect;  //部门选择
 
@@ -109,7 +140,10 @@ void WorkManager::addEmp()
         this->mEmpNum = newSize;
 
         //成功添加后，保存数据到文件中
+        this->save();
 
+        //更新文件不为空的标记
+        this->mFileIsEmpty = false;
 
         cout << "成功添加 " << addNum << " 名新职工！" << endl;
     }
@@ -122,6 +156,106 @@ void WorkManager::addEmp()
     system("pause");
     system("cls");
 }
+
+
+//保存数据
+void WorkManager::save()
+{
+    ofstream ofs;
+    ofs.open(FILENAME, ios::out);  // 写文件
+    if (!ofs.is_open())
+    {
+        cout << "打开数据文件失败" << endl;
+        return;
+    }
+
+    for (int i = 0; i < this->mEmpNum; i++)
+    {
+        ofs << this->mEmpArray[i]->mId << " "
+            << this->mEmpArray[i]->mName << " "
+            << this->mEmpArray[i]->mDeptId << endl;
+    }
+
+    ofs.close();
+}
+
+
+//统计已存在的人数
+int WorkManager::getEmpNum()
+{
+    ifstream ifs;
+    ifs.open(FILENAME, ios::in);
+
+    int id;
+    string name;
+    int dId;
+
+    int num = 0;
+
+    /*
+        在C++中，ifstream 对象使用默认的空白字符（包括空格、制表符、换行符等）作为分隔符，从文件中读取数据时会跳过这些空白字符。
+        这是因为默认情况下，输入运算符 >> 会自动跳过输入流中的空白字符，直到遇到非空白字符为止。
+    */
+    while (ifs >> id && ifs >> name && ifs >> dId)
+    {
+        num++;
+    }
+
+    return num;
+}
+
+
+//初始化职工
+void WorkManager::initEmp()
+{
+    int num = this->getEmpNum();
+    cout << "职工人数为：" << num << endl;
+    this->mEmpNum = num;
+    this->mEmpArray = new Worker * [this->mEmpNum];
+
+    ifstream ifs;
+    ifs.open(FILENAME, ios::in);
+
+    int id;
+    string name;
+    int dId;
+
+    int index = 0;
+
+    while (ifs >> id && ifs >> name && ifs >> dId)
+    {
+        Worker* worker = NULL;
+        //根据不同的部门id创建不同对象
+        if (dId == 1)
+        {
+            worker = new Employee(id, name, dId);
+        }
+        else if (dId == 2)
+        {
+            worker = new Manager(id, name, dId);
+        }
+        else
+        {
+            worker = new Boss(id, name, dId);
+        }
+        //保存到数组中
+        this->mEmpArray[index] = worker;
+        index++;
+    }
+
+    //关闭文件
+    ifs.close();
+
+    //测试代码
+    //for (int i = 0; i < this->mEmpNum; i++)
+    //{
+    //    cout << "职工编号：" << this->mEmpArray[i]->mId
+    //        << " 姓名：" << this->mEmpArray[i]->mName
+    //        << " 部门编号：" << this->mEmpArray[i]->getDeptName()
+    //        << endl;
+    //}
+}
+
 
 void WorkManager::exitSystem()
 {

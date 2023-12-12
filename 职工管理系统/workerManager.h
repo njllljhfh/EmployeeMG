@@ -5,6 +5,9 @@ using namespace std;  //使用标准命名空间
 #include "employee.h"
 #include "manager.h"
 #include "boss.h"
+#include <fstream>
+
+#define FILENAME "empFile.txt"
 
 
 class WorkManager
@@ -12,6 +15,7 @@ class WorkManager
 public:
     int mEmpNum;  //职工人数
     Worker** mEmpArray;  //职工数组指针
+    bool mFileIsEmpty;  //判断文件是否为空的标记
 
     //构造
     WorkManager();
@@ -27,4 +31,13 @@ public:
 
     //添加职工
     void addEmp();
+
+    //保存数据
+    void save();
+
+    //统计人数
+    int getEmpNum();
+
+    //初始化职工
+    void initEmp();
 };
