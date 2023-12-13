@@ -40,4 +40,13 @@ public:
 
     //初始化职工
     void initEmp();
+
+    //显示职工
+    void shouEmp();
+
+    //删除职工
+    void delEmp();
+
+    //判断职工是否存在，存在返回数组 index，不存在返回-1
+    int isExist(int id);
 };

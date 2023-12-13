@@ -290,7 +290,6 @@ void WorkManager::delEmp()
             //职工存在
             for (int i = index; i < this->mEmpNum - 1; i++)
             {
-                //数据前移
                 this->mEmpArray[i] = this->mEmpArray[i + 1];
             }
             //更新职工个数
