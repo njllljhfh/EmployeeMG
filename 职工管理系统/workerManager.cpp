@@ -303,6 +303,12 @@ void WorkManager::delEmp()
             //同步数据到文件
             this->save();
 
+            //当最后一个职工被删除，要修改文件为空的标记为true
+            if (this->mEmpNum == 0)
+            {
+                this->mFileIsEmpty = true;
+            }
+
             cout << "删除成功！" << endl;
         }
         else
