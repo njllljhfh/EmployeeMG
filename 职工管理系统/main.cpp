@@ -37,10 +37,13 @@ int main()
             wm.modifyEmp();
             break;
         case 5:  //查找职工信息
+            wm.findEmp();
             break;
         case 6:  //按照编号排序
+            wm.sortEmp();
             break;
         case 7:  //清空所有文档
+            wm.cleanFile();
             break;
         default:
             system("cls"); //清空屏幕

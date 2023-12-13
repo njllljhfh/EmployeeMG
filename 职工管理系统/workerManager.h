@@ -52,4 +52,13 @@ public:
 
     //修改职工
     void modifyEmp();
+
+    //查找职工
+    void findEmp();
+
+    //按照编号排序
+    void sortEmp();
+
+    //清空文件
+    void cleanFile();
 };
