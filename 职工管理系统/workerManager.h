@@ -49,4 +49,7 @@ public:
 
     //判断职工是否存在，存在返回数组 index，不存在返回-1
     int isExist(int id);
+
+    //修改职工
+    void modifyEmp();
 };

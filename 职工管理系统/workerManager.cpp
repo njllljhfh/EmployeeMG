@@ -325,6 +325,74 @@ int WorkManager::isExist(int id)
 }
 
 
+//修改职工
+void WorkManager::modifyEmp()
+{
+    if (this->mFileIsEmpty)
+    {
+        cout << "文件不存在，或记录为空" << endl;
+    }
+    else
+    {
+        cout << "请输入要修改的职工编号：" << endl;
+        int id;
+        cin >> id;
+
+        int index = this->isExist(id);
+
+        if (index != -1)
+        {
+            //释放要修改的职工的内存空间
+            delete this->mEmpArray[index];
+
+            int newId = 0;
+            string newName = "";
+            int newDeptId = 0;
+
+            cout << "查到：" << id << "号职工" << endl;
+            cout << "请输入新职工号：" << endl;
+            cin >> newId;
+
+            cout << "请输入新姓名：" << endl;
+            cin >> newName;
+
+            cout << "请输入新部门编号：" << endl;
+            cout << "1、普通职工" << endl;
+            cout << "2、经理" << endl;
+            cout << "3、老板" << endl;
+            cin >> newDeptId;
+
+            Worker* worker = NULL;
+            switch (newDeptId)
+            {
+            case 1:
+                worker = new Employee(newId, newName, newDeptId);
+                break;
+            case 2:
+                worker = new Manager(newId, newName, newDeptId);
+                break;
+            case 3:
+                worker = new Boss(newId, newName, newDeptId);
+                break;
+            default:
+                break;
+            }
+
+            this->mEmpArray[index] = worker;
+            cout << "修改成功" << endl;
+
+            this->save();
+        }
+        else
+        {
+            cout << "修改失败，未找到该职工" << endl;
+        }
+    }
+    system("pause");
+    system("cls");
+}
+
+
 //退出系统
 void WorkManager::exitSystem()
 {
