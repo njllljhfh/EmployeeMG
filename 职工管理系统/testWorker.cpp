@@ -3,7 +3,7 @@
 void testAllWorker()
 {
     cout << "测试所有的worker类：" << endl;
-    Worker* worker = NULL;
+    Worker* worker = nullptr;
     worker = new Employee(1, "张三", 1);
     worker->showInfo();
     delete worker;

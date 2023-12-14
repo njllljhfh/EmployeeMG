@@ -12,7 +12,7 @@ WorkManager::WorkManager()
         cout << "文件不存在" << endl;
         //初始化属性
         this->mEmpNum = 0;
-        this->mEmpArray = NULL;
+        this->mEmpArray = nullptr;
         this->mFileIsEmpty = true;
         ifs.close();
         return;
@@ -25,7 +25,7 @@ WorkManager::WorkManager()
     {
         cout << "文件为空" << endl;
         this->mEmpNum = 0;
-        this->mEmpArray = NULL;
+        this->mEmpArray = nullptr;
         this->mFileIsEmpty = true;
         ifs.close();
         return;
@@ -38,15 +38,15 @@ WorkManager::WorkManager()
 
 WorkManager::~WorkManager()
 {
-    if (this->mEmpArray != NULL)
+    if (this->mEmpArray != nullptr)
     {
         for (int i = 0; i < this->mEmpNum; i++)
         {
             delete this->mEmpArray[i];
-            this->mEmpArray[i] = NULL;
+            this->mEmpArray[i] = nullptr;
         }
         delete[] this->mEmpArray;
-        this->mEmpArray = NULL;
+        this->mEmpArray = nullptr;
     }
 }
 
@@ -84,7 +84,7 @@ void WorkManager::addEmp()
         Worker** newSpace = new Worker * [newSize];
 
         //将原来空间中的数据，拷贝到新空间中
-        if (this->mEmpArray != NULL)
+        if (this->mEmpArray != nullptr)
         {
             for (int i = 0; i < this->mEmpNum; i++)
             {
@@ -112,7 +112,7 @@ void WorkManager::addEmp()
             cout << "3、老板" << endl;
             cin >> dSelect;
 
-            Worker* worker = NULL;
+            Worker* worker = nullptr;
             switch (dSelect)
             {
             case 1:
@@ -230,7 +230,7 @@ void WorkManager::initEmp()
 
     while (ifs >> id && ifs >> name && ifs >> dId)
     {
-        Worker* worker = NULL;
+        Worker* worker = nullptr;
         //根据不同的部门id创建不同对象
         if (dId == 1)
         {
@@ -374,7 +374,7 @@ void WorkManager::modifyEmp()
             cout << "3、老板" << endl;
             cin >> newDeptId;
 
-            Worker* worker = NULL;
+            Worker* worker = nullptr;
             switch (newDeptId)
             {
             case 1:
@@ -542,18 +542,18 @@ void WorkManager::cleanFile()
         ofstream ofs(FILENAME, ios::trunc);  // 删除文件后重新创建
         ofs.close();
 
-        if (this->mEmpArray != NULL)
+        if (this->mEmpArray != nullptr)
         {
             //删除堆区的每个职工对象
             for (int i = 0; i < this->mEmpNum; i++)
             {
                 delete this->mEmpArray[i];
-                this->mEmpArray[i] = NULL;
+                this->mEmpArray[i] = nullptr;
             }
 
             //删除堆区数组指针
             delete[] this->mEmpArray;
-            this->mEmpArray = NULL;
+            this->mEmpArray = nullptr;
             this->mEmpNum = 0;
             this->mFileIsEmpty = true;
         }
